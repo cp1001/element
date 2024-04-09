@@ -1,5 +1,6 @@
 <script>
   import TabNav from './tab-nav';
+  import { isEqual } from 'element-ui/src/utils/util';
 
   export default {
     name: 'ElTabs',
@@ -62,6 +63,11 @@
           // update indeed
           const panes = paneSlots.map(({ componentInstance }) => componentInstance);
           const panesChanged = !(panes.length === this.panes.length && panes.every((pane, index) => pane === this.panes[index]));
+          if(isForceUpdate) {
+            if (isEqual(this.panes, panes)) {
+              isForceUpdate = false;
+            }
+          }
           if (isForceUpdate || panesChanged) {
             this.panes = panes;
           }
