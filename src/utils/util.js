@@ -166,12 +166,20 @@ export const looseEqual = function(a, b) {
   }
 };
 
-export const arrayEquals = function(arrayA, arrayB) {
+// shallow：浅比较，只比较第一层
+export const arrayEquals = function(arrayA, arrayB, shallow) {
   arrayA = arrayA || [];
   arrayB = arrayB || [];
 
   if (arrayA.length !== arrayB.length) {
     return false;
+  }
+
+  if (shallow) {
+    for (let i = 0; i < arrayA.length; i++) {
+      if (arrayA[i] !== arrayB[i]) return false;
+    }
+    return true;
   }
 
   for (let i = 0; i < arrayA.length; i++) {

@@ -1,6 +1,6 @@
 <script>
   import TabNav from './tab-nav';
-  import { isEqual } from 'element-ui/src/utils/util';
+  import { arrayEquals } from 'element-ui/src/utils/util';
 
   export default {
     name: 'ElTabs',
@@ -64,7 +64,8 @@
           const panes = paneSlots.map(({ componentInstance }) => componentInstance);
           const panesChanged = !(panes.length === this.panes.length && panes.every((pane, index) => pane === this.panes[index]));
           if(isForceUpdate) {
-            if (isEqual(this.panes, panes)) {
+            console.log('isForceUpdate, shallow compare!');
+            if (arrayEquals(this.panes, panes, true)) {
               isForceUpdate = false;
             }
           }
