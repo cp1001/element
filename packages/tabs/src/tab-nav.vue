@@ -1,6 +1,7 @@
 <script>
   import TabBar from './tab-bar';
   import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
+  import debounce from 'throttle-debounce/debounce';
 
   function noop() {}
   const firstUpperCase = str => {
@@ -113,12 +114,21 @@
         this.navOffset = Math.min(newOffset, maxOffset);
       },
       update() {
+        console.log('update!');
+        setTimeout(this.delayUpdate, 200);
+        debounce(150, () => { console.log('debounce exec!')});
+      },
+      delayUpdate() {
+        console.log('delayUpdate', Date.now());
         if (!this.$refs.nav) return;
         const sizeName = this.sizeName;
         const navSize = this.$refs.nav[`offset${firstUpperCase(sizeName)}`];
         const containerSize = this.$refs.navScroll[`offset${firstUpperCase(sizeName)}`];
         const currentOffset = this.navOffset;
-
+        if (containerSize == 0) {
+          console.log('containerSize==0', Date.now());
+          return;
+        }
         if (containerSize < navSize) {
           const currentOffset = this.navOffset;
           this.scrollable = this.scrollable || {};
