@@ -1,6 +1,5 @@
 <script>
   import TabNav from './tab-nav';
-  import { arrayEquals } from 'element-ui/src/utils/util';
 
   export default {
     name: 'ElTabs',
@@ -56,20 +55,14 @@
     },
 
     methods: {
-      calcPaneInstances(isForceUpdate = false) {
+      calcPaneInstances() {
         if (this.$slots.default) {
           const paneSlots = this.$slots.default.filter(vnode => vnode.tag &&
             vnode.componentOptions && vnode.componentOptions.Ctor.options.name === 'ElTabPane');
           // update indeed
           const panes = paneSlots.map(({ componentInstance }) => componentInstance);
           const panesChanged = !(panes.length === this.panes.length && panes.every((pane, index) => pane === this.panes[index]));
-          if(isForceUpdate) {
-            console.log('isForceUpdate, shallow compare!');
-            if (arrayEquals(this.panes, panes, true)) {
-              isForceUpdate = false;
-            }
-          }
-          if (isForceUpdate || panesChanged) {
+          if (panesChanged) {
             this.panes = panes;
           }
         } else if (this.panes.length !== 0) {

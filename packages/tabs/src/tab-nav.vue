@@ -1,7 +1,7 @@
 <script>
   import TabBar from './tab-bar';
   import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
-  import debounce from 'throttle-debounce/debounce';
+  import throttle from 'throttle-debounce/debounce';
 
   function noop() {}
   const firstUpperCase = str => {
@@ -52,6 +52,10 @@
       sizeName() {
         return ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'width' : 'height';
       }
+    },
+
+    created() {
+      this.update = throttle(150, this.delayUpdate);
     },
 
     methods: {
@@ -113,13 +117,8 @@
         newOffset = Math.max(newOffset, 0);
         this.navOffset = Math.min(newOffset, maxOffset);
       },
-      update() {
-        console.log('update!');
-        setTimeout(this.delayUpdate, 200);
-        debounce(150, () => { console.log('debounce exec!')});
-      },
+
       delayUpdate() {
-        console.log('delayUpdate', Date.now());
         if (!this.$refs.nav) return;
         const sizeName = this.sizeName;
         const navSize = this.$refs.nav[`offset${firstUpperCase(sizeName)}`];
