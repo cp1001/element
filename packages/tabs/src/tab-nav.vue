@@ -1,7 +1,7 @@
 <script>
   import TabBar from './tab-bar';
   import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
-  import throttle from 'throttle-debounce/debounce';
+  import throttle from 'throttle-debounce/throttle';
 
   function noop() {}
   const firstUpperCase = str => {
